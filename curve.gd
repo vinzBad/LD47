@@ -6,6 +6,7 @@ tool
 # var a = 2
 # var b = "text"
 onready var path = $path
+onready var marker = $line
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,9 +20,9 @@ func create_path(crv:Curve2D):
 	var next_point = Vector2.ZERO
 	crv.add_point(next_point)
 	next_point = self.add_straight(crv, next_point, 50)
-	next_point = self.add_loop(crv, next_point, 10)
+	next_point = self.add_loop(crv, next_point, 50)
 	next_point = self.add_straight(crv, next_point, 50)
-	next_point = self.add_loop(crv, next_point, 20)
+	next_point = self.add_loop(crv, next_point, 100)
 	next_point = self.add_straight(crv, next_point, 50)
 
 func add_straight(crv:Curve2D, next_point:Vector2, length):
@@ -39,9 +40,13 @@ func add_loop(crv:Curve2D, next_point:Vector2, s):
 	crv.add_point(next_point + Vector2(4*s, 0))
 	return next_point + Vector2(4*s, 0)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+var t = 0.0
+func _process(delta):
+	t += delta * 0.1
+	if t > 1:
+		t = 0.0
+	marker.position = path.curve.interpolate_baked(t * path.curve.get_baked_length(), true)
+	
 
 func _draw():
 	var points:PoolVector2Array = path.curve.tessellate ()
