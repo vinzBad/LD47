@@ -16,7 +16,7 @@ var type_name:String = ""
 var color:Color = COLOR_IDLE setget set_color, get_color
 var curve:Curve2D = Curve2D.new()
 var __tesselated_points
-var width = 8
+var width = 24
 
 var next_segment
 var prev_segment

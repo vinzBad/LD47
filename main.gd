@@ -4,8 +4,14 @@ extends Node2D
 onready var rider = $rider
 onready var track = $track
 
-var t:float = 0
+onready var hearts = [
+	$gui/heart1,
+	$gui/heart2,
+	$gui/heart3
+]
 
+var t:float = 0
+var health = 0
 var current_segment:Segment
 var last_segment:Segment
 var offset = Vector2.ZERO
@@ -19,7 +25,15 @@ var speed = 500
 func _ready():
 	current_segment = track.get_first_segment()
 	current_segment.color = Segment.COLOR_ACTIVE
+	for heart in hearts:
+		health += 1
 
+func lose_health():
+	hearts[health-1].visible = false
+	health -= 1
+	if health <= 0:
+		# TODO: display lose screen
+		get_tree().reload_current_scene()
 	
 func _process(_delta):
 	
@@ -52,6 +66,7 @@ func _process(_delta):
 		
 		track.generate_segments()
 		track.clear_old_segments(rider.position.x - get_viewport_rect().size.x) 
+		rider.draw_attention_circle(1)
 
 	rider.position = current_segment.position + current_segment.interpolate_baked(t) 
 	
@@ -63,15 +78,17 @@ func _process(_delta):
 	if last_up_segment and last_up_segment != current_segment:
 		last_up_segment.color = Segment.COLOR_IDLE
 		
-	if Input.is_key_pressed(KEY_SPACE):
-		do_loop_exit = true
+	if Input.is_action_just_pressed("change_route"):
+		if current_segment.type_name == Segment.CURVE_DOWN_RIGHT:
+			do_loop_exit = true
+		else:
+			lose_health()
 	
 	var interpol_color = Segment.COLOR_IDLE.linear_interpolate(Segment.COLOR_ACTIVE, t / current_segment.get_baked_length())
 	
 	if current_segment.type_name == Segment.CURVE_DOWN_RIGHT and not do_loop_exit:	
 		#rider.space_sprite.visible = true
-		#last_up_segment.color = interpol_color
-		pass
+		rider.draw_attention_circle(t / current_segment.get_baked_length())
 	else:
 		rider.space_sprite.visible = false
 		#current_segment.next_segment.color = interpol_color

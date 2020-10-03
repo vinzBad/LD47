@@ -41,11 +41,11 @@ scale = Vector2( 0.661603, 0.661603 )
 texture = ExtResource( 5 )
 
 [node name="heart2" type="Sprite" parent="gui"]
-position = Vector2( 237.948, 52.2463 )
+position = Vector2( 137.155, 52.2463 )
 scale = Vector2( 0.661603, 0.661603 )
 texture = ExtResource( 5 )
 
 [node name="heart3" type="Sprite" parent="gui"]
-position = Vector2( 145.482, 53.04 )
+position = Vector2( 241.236, 53.0399 )
 scale = Vector2( 0.661603, 0.661603 )
 texture = ExtResource( 5 )
