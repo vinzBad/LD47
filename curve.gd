@@ -5,15 +5,13 @@ tool
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-onready var path = $path
-onready var marker = $line
 
+onready var marker = $line
+var curve = Curve2D.new()
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	path.curve = Curve2D.new()
-	create_path(path.curve)
-
+func _ready():	
+	create_path(curve)
 
 func create_path(crv:Curve2D):
 	crv.clear_points()
@@ -44,12 +42,12 @@ var t = 0.0
 func _process(delta):
 	t += delta * 0.1
 	if t > 1:
-		t = 0.0
-	marker.position = path.curve.interpolate_baked(t * path.curve.get_baked_length(), true)
+		t = 0.0	
+	position = -curve.interpolate_baked(t * curve.get_baked_length(), true)
 	
 
 func _draw():
-	var points:PoolVector2Array = path.curve.tessellate ()
+	var points:PoolVector2Array = curve.tessellate ()
 
 	var p1 = points[0]
 	for idx in range(1, len(points)):
