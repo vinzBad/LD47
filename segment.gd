@@ -1,8 +1,10 @@
 extends Node2D
 class_name Segment
 
-const CURVE_UP = "CURVE_UP"
-const CURVE_DOWN = "CURVE_DOWN"
+const CURVE_RIGHT_UP = "CURVE_RIGHT_UP"
+const CURVE_DOWN_RIGHT = "CURVE_DOWN_RIGHT"
+const CURVE_UP_LEFT = "CURVE_UP_LEFT"
+const CURVE_LEFT_DOWN = "CURVE_LEFT_DOWN"
 const LOOP_BACK = "LOOP_BACK"
 const STRAIGHT = "STRAIGHT"
 
@@ -14,11 +16,10 @@ var type_name:String = ""
 var color:Color = COLOR_IDLE setget set_color, get_color
 var curve:Curve2D = Curve2D.new()
 var __tesselated_points
-var width = 4
+var width = 8
 
 var next_segment
 var prev_segment
-
 
 
 # mock Curve2D - start
@@ -48,12 +49,15 @@ func last_point():
 		__tesselated_points = tessellate()
 	return __tesselated_points[len(__tesselated_points) - 1]
 
+
 func _draw():
 	tessellate()
 	var p1 = __tesselated_points[0] 
 	var p2 = Vector2.ZERO
+
 	for idx in range(1, len(__tesselated_points)):
 		p2 = __tesselated_points[idx] 
+		var t = curve.get_closest_offset(p2) / curve.get_baked_length()
 		draw_line(p1, p2, color, width, true)
 		p1 = p2
 	
