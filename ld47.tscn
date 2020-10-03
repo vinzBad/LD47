@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0.931035 ), 0.0, 0.0, 0, 0, Vector2( 0.295, 0.431035 ), 0.0, 0.0, 0, 0, Vector2( 0.68, 0.637931 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.991379 ), 0.0, 0.0, 0, 0 ]
+
+[node name="ld47" type="Node2D"]
+
+[node name="L" type="Line2D" parent="."]
+position = Vector2( -114.362, -74.8398 )
+points = PoolVector2Array( 128.626, 77.7036, 120, 255.5, 167.307, 258.496 )
+width_curve = SubResource( 1 )
+
+[node name="D" type="Line2D" parent="."]
+position = Vector2( -25.227, -62.2264 )
+points = PoolVector2Array( 128.626, 77.7036, 120, 255.5, 146.285, 235.792, 160.58, 183.657, 158.057, 115.544, 126.944, 78.5445 )
+width_curve = SubResource( 1 )
+
+[node name="4" type="Line2D" parent="."]
+position = Vector2( 104.271, -61.3854 )
+points = PoolVector2Array( 144.603, 92.8398, 114.33, 165.998, 177.398, 173.566, 141.239, 169.361, 131.148, 247.565, 147.125, 129.839 )
+width_curve = SubResource( 1 )
+
+[node name="7" type="Line2D" parent="."]
+position = Vector2( 248.906, 10.0904 )
+points = PoolVector2Array( 78.1719, 37.3406, 132.83, 43.2269, 91.6262, 178.611 )
+width_curve = SubResource( 1 )

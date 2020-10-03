@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ld47.tscn" type="PackedScene" id=1]
+[ext_resource path="res://curve.gd" type="Script" id=2]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, -5.51915, 0, 0, 0, 0, 0, 0, 0, 10, 0 )
+}
+
+[node name="main" type="Node2D"]
+
+[node name="ld47" parent="." instance=ExtResource( 1 )]
+position = Vector2( 663.467, 2.52269 )
+scale = Vector2( 0.920753, 0.33136 )
+
+[node name="curve" type="Node2D" parent="."]
+position = Vector2( 96.5202, 114.781 )
+script = ExtResource( 2 )
+
+[node name="path" type="Path2D" parent="curve"]
+position = Vector2( -3.28727, -4.58421 )
+curve = SubResource( 1 )
