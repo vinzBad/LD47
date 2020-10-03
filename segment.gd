@@ -16,6 +16,10 @@ var curve:Curve2D = Curve2D.new()
 var __tesselated_points
 var width = 4
 
+var next_segment
+var prev_segment
+
+
 
 # mock Curve2D - start
 func add_point (position:Vector2, in_control:Vector2=Vector2( 0, 0 ),  out_control:Vector2=Vector2( 0, 0 ), at_position:int=-1 ):
@@ -45,7 +49,7 @@ func last_point():
 	return __tesselated_points[len(__tesselated_points) - 1]
 
 func _draw():
-	__tesselated_points = tessellate()
+	tessellate()
 	var p1 = __tesselated_points[0] 
 	var p2 = Vector2.ZERO
 	for idx in range(1, len(__tesselated_points)):
