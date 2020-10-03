@@ -44,7 +44,17 @@ class Segment extends Curve2D:
 func _ready():
 	var s = 100
 	segments = create_loop(s) 
-	#segments. create_loop(1.4)
+	segments += create_loop(s * 1.4)
+	segments += create_loop(s * .9)
+	segments += create_loop(s * .7)
+	segments += create_loop(s * .5)
+	segments += create_loop(s * .4)
+	segments += [straight(500)]
+	segments += create_loop(s * .4)
+	segments += [straight(500)]
+	segments += create_loop(s * .4)
+	segments += [straight(500)]
+	segments += create_loop(s * .4)
 
 
 func create_loop(s):

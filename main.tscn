@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://rider.gd" type="Script" id=1]
 [ext_resource path="res://track.tscn" type="PackedScene" id=2]
 [ext_resource path="res://main.gd" type="Script" id=3]
+[ext_resource path="res://space.png" type="Texture" id=4]
 
 [node name="main" type="Node2D"]
 script = ExtResource( 3 )
@@ -19,3 +20,8 @@ points = PoolVector2Array( 0, 5, 0, -10 )
 current = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
+
+[node name="space" type="Sprite" parent="rider"]
+visible = false
+position = Vector2( -1.91626, 55.0976 )
+texture = ExtResource( 4 )
