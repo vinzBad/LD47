@@ -8,6 +8,11 @@ onready var track = $track
 onready var ouch = $audio/ouch
 onready var ouch2 = $audio/ouch2
 onready var success = $audio/success
+onready var wub1 = $audio/wub1
+onready var wub2 = $audio/wub2
+onready var wub3 = $audio/wub3
+onready var wub4 = $audio/wub4
+onready var wub5 = $audio/wub5
 
 
 onready var lose_screen = $gui/lose_screen
@@ -21,6 +26,8 @@ onready var hearts = [
 	$gui/heart3
 ]
 
+var segment_sounds
+
 var t:float = 0
 var score = 0
 var health = 0
@@ -31,7 +38,7 @@ var last_up_segment:Segment
 
 var do_loop_exit = false
 
-var speed = 750
+var speed = 500
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,9 +46,18 @@ func _ready():
 	current_segment.color = Segment.COLOR_ACTIVE
 	for heart in hearts:
 		health += 1
+		
+	segment_sounds = {
+			Segment.CURVE_RIGHT_UP: wub1,
+			Segment.CURVE_UP_LEFT: wub2,
+			Segment.CURVE_LEFT_DOWN: wub3,
+			#Segment.CURVE_DOWN_RIGHT: wub4,
+			Segment.STRAIGHT: wub5,
+		}
 
 func lose_health():
-	
+	if lose_screen.visible:
+		return
 	hearts[health-1].visible = false
 	health -= 1
 	if health < 0:
@@ -89,6 +105,9 @@ func _process(_delta):
 		track.generate_segments()
 		track.clear_old_segments(rider.position.x - get_viewport_rect().size.x) 
 		rider.draw_attention_circle(1)
+		
+		if current_segment.type_name in segment_sounds:
+			segment_sounds[current_segment.type_name].play()
 
 	rider.position = current_segment.position + current_segment.interpolate_baked(t) 
 	

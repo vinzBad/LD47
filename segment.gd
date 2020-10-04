@@ -12,6 +12,8 @@ const COLOR_IDLE = Color("ffefa0")
 #const COLOR_ACTIVE = Color("fca652")
 const COLOR_ACTIVE = Color("ac4b1c")
 
+onready var line:Line2D = $Line2D
+
 var type_name:String = ""
 var color:Color = COLOR_IDLE setget set_color, get_color
 var curve:Curve2D = Curve2D.new()
@@ -21,6 +23,9 @@ var score_multi = 1
 
 var next_segment
 var prev_segment
+
+func _ready():
+	line.width = width
 
 
 # mock Curve2D - start
@@ -39,11 +44,11 @@ func interpolate_baked(offset:float, cubic:bool=false):
 # mock Curve2D - end
 
 func set_color(value:Color):
-	color = value
-	update()
+	line.default_color = value
 
 func get_color():
-	return color
+	return line.default_color
+	
 
 func last_point():
 	if not __tesselated_points:
@@ -51,14 +56,9 @@ func last_point():
 	return __tesselated_points[len(__tesselated_points) - 1]
 
 
-func _draw():
-	tessellate()
-	var p1 = __tesselated_points[0] 
-	var p2 = Vector2.ZERO
-
-	for idx in range(1, len(__tesselated_points)):
-		p2 = __tesselated_points[idx] 
-		var t = curve.get_closest_offset(p2) / curve.get_baked_length()
-		draw_line(p1, p2, color, width, true)
-		p1 = p2
+func _draw():	
+	line.clear_points()
+	tessellate()	
+	for point in __tesselated_points:
+		line.add_point(point)
 	

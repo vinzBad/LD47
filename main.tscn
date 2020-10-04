@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://rider.gd" type="Script" id=1]
 [ext_resource path="res://track.tscn" type="PackedScene" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://sound/ouch.wav" type="AudioStream" id=6]
 [ext_resource path="res://sound/ouch2.wav" type="AudioStream" id=7]
 [ext_resource path="res://sound/success.wav" type="AudioStream" id=8]
+[ext_resource path="res://sound/wub2.wav" type="AudioStream" id=9]
+[ext_resource path="res://sound/wub1.wav" type="AudioStream" id=10]
+[ext_resource path="res://sound/wub5.wav" type="AudioStream" id=11]
+[ext_resource path="res://sound/wub4.wav" type="AudioStream" id=12]
+[ext_resource path="res://sound/wub3.wav" type="AudioStream" id=13]
 
 [sub_resource type="InputEventAction" id=1]
 action = "ui_accept"
@@ -17,6 +22,10 @@ shortcut = SubResource( 1 )
 
 [sub_resource type="AudioStreamRandomPitch" id=3]
 audio_stream = ExtResource( 8 )
+random_pitch = 1.3
+
+[sub_resource type="AudioStreamRandomPitch" id=4]
+audio_stream = ExtResource( 11 )
 random_pitch = 1.3
 
 [node name="main" type="Node2D"]
@@ -192,6 +201,26 @@ stream = ExtResource( 7 )
 
 [node name="success" type="AudioStreamPlayer" parent="audio"]
 stream = SubResource( 3 )
+bus = "Success"
+
+[node name="wub1" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 10 )
+bus = "Success"
+
+[node name="wub2" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 9 )
+bus = "Success"
+
+[node name="wub3" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 13 )
+bus = "Success"
+
+[node name="wub4" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 12 )
+bus = "Success"
+
+[node name="wub5" type="AudioStreamPlayer" parent="audio"]
+stream = SubResource( 4 )
 bus = "Success"
 [connection signal="pressed" from="gui/lose_screen/MarginContainer/VBoxContainer/ok_button" to="." method="_on_ok_button_pressed"]
 [connection signal="timeout" from="gui/introduction/intro_hide_timer" to="." method="_on_intro_hide_timer_timeout"]
