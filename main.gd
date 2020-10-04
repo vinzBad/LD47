@@ -13,7 +13,7 @@ onready var success = $audio/success
 onready var lose_screen = $gui/lose_screen
 onready var speed_label = $gui/stats/vbox/speed
 onready var score_label  = $gui/stats/vbox/score
-onready var final_score_label = $gui/lose_screen/Panel/MarginContainer/VBoxContainer/final_score
+onready var final_score_label = $gui/lose_screen/MarginContainer/VBoxContainer/final_score
 
 onready var hearts = [
 	$gui/heart1,

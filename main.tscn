@@ -61,64 +61,72 @@ texture = ExtResource( 5 )
 
 [node name="lose_screen" type="MarginContainer" parent="gui"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 300.0
-margin_top = 100.0
-margin_right = -300.0
-margin_bottom = -400.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -238.112
+margin_top = 200.0
+margin_right = 238.112
+margin_bottom = 73.2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="gui/lose_screen"]
-margin_right = 424.0
-margin_bottom = 100.0
+margin_right = 476.0
+margin_bottom = 82.0
 
-[node name="MarginContainer" type="MarginContainer" parent="gui/lose_screen/Panel"]
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -74.0
-margin_top = 10.0
-margin_right = 74.0
+[node name="MarginContainer" type="MarginContainer" parent="gui/lose_screen"]
+margin_right = 476.0
+margin_bottom = 82.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="gui/lose_screen/Panel/MarginContainer"]
-margin_right = 148.0
-margin_bottom = 90.0
+[node name="VBoxContainer" type="VBoxContainer" parent="gui/lose_screen/MarginContainer"]
+margin_right = 476.0
+margin_bottom = 82.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
-margin_right = 148.0
-margin_bottom = 14.0
+[node name="Control" type="Control" parent="gui/lose_screen/MarginContainer/VBoxContainer"]
+margin_right = 476.0
+
+[node name="Label" type="Label" parent="gui/lose_screen/MarginContainer/VBoxContainer"]
+margin_top = 4.0
+margin_right = 476.0
+margin_bottom = 18.0
 text = "Oh No!"
 align = 1
 
-[node name="label2" type="Label" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 148.0
-margin_bottom = 32.0
+[node name="label2" type="Label" parent="gui/lose_screen/MarginContainer/VBoxContainer"]
+margin_top = 22.0
+margin_right = 476.0
+margin_bottom = 36.0
 text = "You got stuck in a loop!"
 align = 1
 
-[node name="final_score" type="Label" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 148.0
-margin_bottom = 32.0
+[node name="final_score" type="Label" parent="gui/lose_screen/MarginContainer/VBoxContainer"]
+margin_top = 40.0
+margin_right = 476.0
+margin_bottom = 54.0
 text = "You got stuck in a loop!"
 align = 1
 
-[node name="ok_button" type="Button" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
-margin_top = 36.0
-margin_right = 148.0
-margin_bottom = 56.0
+[node name="ok_button" type="Button" parent="gui/lose_screen/MarginContainer/VBoxContainer"]
+margin_left = 195.0
+margin_top = 58.0
+margin_right = 281.0
+margin_bottom = 78.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
 shortcut = SubResource( 2 )
 text = "OK  [SPACE]"
+
+[node name="Control2" type="Control" parent="gui/lose_screen/MarginContainer/VBoxContainer"]
+margin_top = 82.0
+margin_right = 476.0
+margin_bottom = 82.0
 
 [node name="stats" type="MarginContainer" parent="gui"]
 anchor_left = 1.0
@@ -181,5 +189,5 @@ stream = ExtResource( 7 )
 [node name="success" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource( 8 )
 bus = "Success"
-[connection signal="pressed" from="gui/lose_screen/Panel/MarginContainer/VBoxContainer/ok_button" to="." method="_on_ok_button_pressed"]
+[connection signal="pressed" from="gui/lose_screen/MarginContainer/VBoxContainer/ok_button" to="." method="_on_ok_button_pressed"]
 [connection signal="timeout" from="gui/introduction/intro_hide_timer" to="." method="_on_intro_hide_timer_timeout"]
