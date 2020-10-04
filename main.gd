@@ -1,8 +1,19 @@
 extends Node2D
 
+const MAX_SPEED = 1150
 
 onready var rider = $rider
 onready var track = $track
+
+onready var ouch = $audio/ouch
+onready var ouch2 = $audio/ouch2
+onready var success = $audio/success
+
+
+onready var lose_screen = $gui/lose_screen
+onready var speed_label = $gui/stats/vbox/speed
+onready var score_label  = $gui/stats/vbox/score
+onready var final_score_label = $gui/lose_screen/Panel/MarginContainer/VBoxContainer/final_score
 
 onready var hearts = [
 	$gui/heart1,
@@ -11,6 +22,7 @@ onready var hearts = [
 ]
 
 var t:float = 0
+var score = 0
 var health = 0
 var current_segment:Segment
 var last_segment:Segment
@@ -19,7 +31,7 @@ var last_up_segment:Segment
 
 var do_loop_exit = false
 
-var speed = 500
+var speed = 750
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -29,11 +41,16 @@ func _ready():
 		health += 1
 
 func lose_health():
+	
 	hearts[health-1].visible = false
 	health -= 1
-	if health <= 0:
-		# TODO: display lose screen
-		get_tree().reload_current_scene()
+	if health < 0:
+		ouch2.play()
+		speed = 0
+		final_score_label.text = "Final Score: " + str(score)
+		lose_screen.visible = true		
+	else:
+		ouch.play()
 	
 func _process(_delta):
 	
@@ -48,8 +65,13 @@ func _process(_delta):
 		if current_segment.type_name == Segment.CURVE_RIGHT_UP: # we're exiting an CURVE_RIGHT_UP segment
 			last_up_segment = current_segment
 				
-		#if current_segment.type_name == Segment.CURVE_DOWN_RIGHT and do_loop_exit:
-		#	speed += 50
+		if current_segment.type_name == Segment.CURVE_DOWN_RIGHT and do_loop_exit:
+			success.play()
+			score += round(current_segment.score_multi * speed)
+			speed += 25
+			speed = clamp(speed, 500, MAX_SPEED)
+			speed_label.text = "Speed: " + str(speed)
+			score_label.text = "Score: " + str(score)
 		
 		if current_segment.type_name == Segment.CURVE_DOWN_RIGHT and not do_loop_exit: 
 			current_segment.color = Segment.COLOR_IDLE
@@ -82,7 +104,10 @@ func _process(_delta):
 		if current_segment.type_name == Segment.CURVE_DOWN_RIGHT:
 			do_loop_exit = true
 		else:
-			lose_health()
+			if current_segment.type_name == Segment.STRAIGHT:
+				pass
+			else:
+				lose_health()
 	
 	var interpol_color = Segment.COLOR_IDLE.linear_interpolate(Segment.COLOR_ACTIVE, t / current_segment.get_baked_length())
 	
@@ -95,3 +120,11 @@ func _process(_delta):
 
 
 
+
+
+func _on_ok_button_pressed():
+	get_tree().reload_current_scene()
+
+
+func _on_intro_hide_timer_timeout():
+	$gui/introduction.visible = false

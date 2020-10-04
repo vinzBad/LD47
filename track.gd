@@ -1,6 +1,8 @@
 extends Node2D
 
 const C = 0.551915024494
+const BASE_SIZE = 100.0
+
 
 var segment_scene = preload("segment.tscn")
 
@@ -8,8 +10,7 @@ var next_segments = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var s = 100
-	add_segment(straight(100))
+	add_segment(straight(BASE_SIZE))
 	generate_segments()
 
 func create_loop(s):
@@ -43,9 +44,9 @@ func get_last_segment():
 func generate_segments():
 	if get_child_count() < 64:
 		if randi() % 2 == 0:
-			next_segments.append(straight((randi() % 4 + 1) * 50))
+			next_segments.append(straight(BASE_SIZE))
 		else:
-			next_segments += create_loop(rand_range(.4, 1.2) * 100)
+			next_segments += create_loop((randi() % 5 * .1 + .6) * BASE_SIZE)
 		for seg in next_segments:
 			add_segment(seg)
 		next_segments.clear()
@@ -92,6 +93,7 @@ func curve_down_right(s):
 	
 	curve.add_point(Vector2.ZERO, Vector2.ZERO, Vector2(0, c))
 	curve.add_point(Vector2(s,s), Vector2(-c, 0))
+	curve.score_multi = 1 / (s/BASE_SIZE)
 	return curve
 
 

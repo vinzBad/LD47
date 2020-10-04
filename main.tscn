@@ -1,10 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://rider.gd" type="Script" id=1]
 [ext_resource path="res://track.tscn" type="PackedScene" id=2]
 [ext_resource path="res://main.gd" type="Script" id=3]
 [ext_resource path="res://space.png" type="Texture" id=4]
 [ext_resource path="res://heart.png" type="Texture" id=5]
+[ext_resource path="res://sound/ouch.wav" type="AudioStream" id=6]
+[ext_resource path="res://sound/ouch2.wav" type="AudioStream" id=7]
+[ext_resource path="res://sound/success.wav" type="AudioStream" id=8]
+
+[sub_resource type="InputEventAction" id=1]
+action = "ui_accept"
+
+[sub_resource type="ShortCut" id=2]
+shortcut = SubResource( 1 )
 
 [node name="main" type="Node2D"]
 script = ExtResource( 3 )
@@ -49,3 +58,128 @@ texture = ExtResource( 5 )
 position = Vector2( 241.236, 53.0399 )
 scale = Vector2( 0.661603, 0.661603 )
 texture = ExtResource( 5 )
+
+[node name="lose_screen" type="MarginContainer" parent="gui"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 300.0
+margin_top = 100.0
+margin_right = -300.0
+margin_bottom = -400.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="gui/lose_screen"]
+margin_right = 424.0
+margin_bottom = 100.0
+
+[node name="MarginContainer" type="MarginContainer" parent="gui/lose_screen/Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -74.0
+margin_top = 10.0
+margin_right = 74.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="gui/lose_screen/Panel/MarginContainer"]
+margin_right = 148.0
+margin_bottom = 90.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
+margin_right = 148.0
+margin_bottom = 14.0
+text = "Oh No!"
+align = 1
+
+[node name="label2" type="Label" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 148.0
+margin_bottom = 32.0
+text = "You got stuck in a loop!"
+align = 1
+
+[node name="final_score" type="Label" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 148.0
+margin_bottom = 32.0
+text = "You got stuck in a loop!"
+align = 1
+
+[node name="ok_button" type="Button" parent="gui/lose_screen/Panel/MarginContainer/VBoxContainer"]
+margin_top = 36.0
+margin_right = 148.0
+margin_bottom = 56.0
+shortcut = SubResource( 2 )
+text = "OK  [SPACE]"
+
+[node name="stats" type="MarginContainer" parent="gui"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 10.0
+margin_right = -10.0
+grow_horizontal = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="vbox" type="VBoxContainer" parent="gui/stats"]
+margin_bottom = 590.0
+
+[node name="speed" type="Label" parent="gui/stats/vbox"]
+margin_bottom = 14.0
+grow_horizontal = 0
+align = 2
+
+[node name="score" type="Label" parent="gui/stats/vbox"]
+margin_top = 18.0
+margin_bottom = 32.0
+grow_horizontal = 0
+align = 2
+
+[node name="introduction" type="MarginContainer" parent="gui"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="gui/introduction"]
+margin_top = 13.0
+margin_right = 167.0
+margin_bottom = 27.0
+text = "Press [SPACE] to exit loop."
+align = 1
+
+[node name="intro_hide_timer" type="Timer" parent="gui/introduction"]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="audio" type="Node" parent="."]
+
+[node name="ouch" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 6 )
+
+[node name="ouch2" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 7 )
+
+[node name="success" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource( 8 )
+bus = "Success"
+[connection signal="pressed" from="gui/lose_screen/Panel/MarginContainer/VBoxContainer/ok_button" to="." method="_on_ok_button_pressed"]
+[connection signal="timeout" from="gui/introduction/intro_hide_timer" to="." method="_on_intro_hide_timer_timeout"]
